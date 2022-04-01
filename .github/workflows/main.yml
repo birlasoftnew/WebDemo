@@ -18,8 +18,16 @@ jobs:
             #a=1
              echo "Display All SQL Files to be modified"
             #ls -la ./ChangeScript
-            for f in ls *.sql | sort -n; 
+            for f in ./ChangeScript/*.sql; 
             do 
-             echo "$f"
+            aa=($(echo "$f" | tr '.' '\n'))
+            aaa=($(echo "$aa" | tr '/' '\n'))
+
+            if [ ${aaa[1]} -ge 03 ]
+             then
+
+                 echo Processing $f ; 
+                 echo Execute sqlcmd $(cat $f) ;
+             fi
              
             done;

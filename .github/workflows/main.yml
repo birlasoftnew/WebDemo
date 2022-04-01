@@ -12,7 +12,23 @@ jobs:
       - uses: actions/checkout@v2
       - name: Execute sql files
         run: |
-         
+         echo "Display All SQL Files to be modified"
+
+            #ls -la ./ChangeScript
+
+             a=[3,4]
+
+              for f in ./ChangeScript/0$a*.sql;
+
+                do
+
+               echo "Iteration no $a"
+
+                echo Processing $f
+
+                echo Execute sqlcmd $(cat $f) ;
+
+                 done;
          
           
             #a=1

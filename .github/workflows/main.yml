@@ -17,6 +17,13 @@ jobs:
           do 
           echo "$i"
           done;  
+          list "" 
+           for i in ./ChangeScript/*.sql
+            do
+              filename=$(basename "$i")
+               list="$list $filename"
+             done    
+            echo  "files: $list"
             #a=1
              echo "Display All SQL Files to be modified"
             #ls -la ./ChangeScript

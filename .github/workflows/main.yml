@@ -13,10 +13,7 @@ jobs:
       - name: Execute sql files
         run: |
          
-          for((i=10; i>=1; i--))
-          do 
-          echo "$i"
-          done;  
+         
           list "" 
            for i in ./ChangeScript/*.sql
             do

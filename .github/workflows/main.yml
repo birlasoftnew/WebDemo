@@ -27,7 +27,7 @@ jobs:
         id: format
         run: |
           mkdir deployment_scripts
-          version=$(python3 ./PythonCicdScripts/cicd_get_version.py)
+         
           echo "Version of deployment is ${version} "
           i=1
           while read FILE; 
@@ -36,9 +36,26 @@ jobs:
             if [[ ${FILE} == *.sql ]]; 
             then
                  file_name=`echo ${FILE} | sed 's|.*/||'`
-                 cp ${FILE} ./deployment_scripts/V${version}.${i}__${file_name}
-                 #echo cp ${FILE} ./deployment_scripts/V${version}.${i}__${file_name}
+                 cp ${FILE} ./deployment_scripts/V${i}__${file_name}
+                 #echo cp ${FILE} ./deployment_scripts/V${i}__${file_name}
                  i=$(( ${i} + 1 ))
             fi
           done < changed_file_list.txt
           ls  ./deployment_scripts
+      
+      - name: Azure credentials  
+      - uses: azure/login@v1
+        with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+           for f in ./ChangeScript/*.sql; 
+            do 
+              #echo Processing $f ; 
+              #echo Execute sqlcmd $(cat $f) ;
+      - name: Execute db commands  
+      - uses: azure/sql-action@v1
+        with:
+         server-name: 'testdbserver.database.windows.net'
+         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
+         sql-file: $(cat $f)
+                 done;

@@ -36,8 +36,8 @@ jobs:
             if [[ ${FILE} == *.sql ]]; 
             then
                  file_name=`echo ${FILE} | sed 's|.*/||'`
-                 cp ${FILE} ./deployment_scripts/V${i}__${file_name}
-                 #echo cp ${FILE} ./deployment_scripts/V${i}__${file_name}
+                 cp ${FILE} ./deployment_scripts/${file_name}
+                 echo cp ${FILE} ./deployment_scripts/${file_name}
                  i=$(( ${i} + 1 ))
             fi
           done < changed_file_list.txt

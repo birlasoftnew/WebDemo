@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir deployment_scripts
          
-          echo "Version of deployment is ${version} "
+          
           i=1
           while read FILE; 
           do 
@@ -42,5 +42,18 @@ jobs:
             fi
           done < changed_file_list.txt
           ls  ./deployment_scripts
-      
+      - uses: actions/checkout@v2
+      - name: Execute sql files
+        run: |
+           
+            
+ 
+         
+            echo "Display All SQL Files to be modified"
+            #ls -la ./deployment_scripts
+            for f in ./deployment_scripts/*.sql; 
+            do 
+              echo Processing $f ; 
+              #echo Execute sqlcmd $(cat $f) ;
+            done;
      

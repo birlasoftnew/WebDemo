@@ -47,7 +47,7 @@ jobs:
         with:
          creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-           for f in ./ChangeScript/*.sql; 
+           for f in ./deployment_scripts/*.sql; 
             do 
               #echo Processing $f ; 
               #echo Execute sqlcmd $(cat $f) ;

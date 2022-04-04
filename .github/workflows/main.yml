@@ -10,6 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Extract GIT Details
+        id: git_details
+        run: |
+           merge_commit=`git log | head -n 1 | cut -d " " -f2`
+           echo ::set-output name=merge_commit::$(git log | head -n 1 | cut -d " " -f2 )
+           echo ::set-output name=previous_commit::$(git rev-list --parents -n 1 ${merge_commit} | cut -d ' ' -f2 )
+           echo ::set-output name=comments::$(git log --pretty=format:"%s" | head -n1)
+           echo "::set-output name=branch_name::$(echo ${GITHUB_REF#refs/heads/})"
       - name: Modified Files
         id: files
         run: |

@@ -10,40 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Execute sql files
+      - name: Get Deployment Version & Format Files
+        id: format
         run: |
-         echo "Display All SQL Files to be modified"
-
-            #ls -la ./ChangeScript
-
-             a=[3,4]
-
-              for f in ./ChangeScript/0$a*.sql;
-
-                do
-
-               echo "Iteration no $a"
-
-                echo Processing $f
-
-                echo Execute sqlcmd $(cat $f) ;
-
-                 done;
-         
-          
-            #a=1
-             echo "Display All SQL Files to be modified"
-            #ls -la ./ChangeScript
-            for f in ./ChangeScript/*.sql; 
-            do 
-            aa=($(echo "$f" | tr '.' '\n'))
-            aaa=($(echo "$aa" | tr '/' '\n'))
-
-            if [ ${aaa[1]} -ge 03 ]
-             then
-
-                 echo Processing $f ; 
-                 echo Execute sqlcmd $(cat $f) ;
-             fi
-             
-            done;
+          mkdir deployment_scripts
+          version=$(python3 ./PythonCicdScripts/cicd_get_version.py)
+          echo "Version of deployment is ${version} "
+          i=1
+          while read FILE; 
+          do 
+            wc_file_list=$(cat changed_file_list.txt | wc -l)
+            if [[ ${FILE} == *.sql ]]; 
+            then
+                 file_name=`echo ${FILE} | sed 's|.*/||'`
+                 cp ${FILE} ./deployment_scripts/V${version}.${i}__${file_name}
+                 #echo cp ${FILE} ./deployment_scripts/V${version}.${i}__${file_name}
+                 i=$(( ${i} + 1 ))
+            fi
+          done < changed_file_list.txt
+          ls  ./deployment_scripts

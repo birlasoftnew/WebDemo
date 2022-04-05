@@ -1,3 +1,10 @@
+name: SQL Changes
+env:
+            
+           ENVIRONMENT_DS: main
+           ENVIRONMENT_CM: INT
+           CHANGE_HISTORY_TABLE: AIGI_EDR_DATASTORE_DEMO.UTILITY.CHANGE_HISTORY
+           DEPLOYMENT_SCRIPT_FOLDER: "ChangeScript/"
 on:
   push:
      branches: [ main ] 
